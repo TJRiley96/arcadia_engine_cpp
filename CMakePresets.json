@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "configurePresets": [
+        {
+        "name": "Debug_x86",
+        "displayName": "Debug Build",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build/${presetName}"
+        }
+    ]
+}
