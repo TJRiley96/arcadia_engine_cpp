@@ -1,3 +1,0 @@
-C:/Users/triley/Projects/cpp/arcadia_engine/build/CMakeFiles/arcadia_engine.dir
-C:/Users/triley/Projects/cpp/arcadia_engine/build/CMakeFiles/edit_cache.dir
-C:/Users/triley/Projects/cpp/arcadia_engine/build/CMakeFiles/rebuild_cache.dir

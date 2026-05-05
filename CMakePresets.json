@@ -1,11 +1,108 @@
 {
-    "version": 2,
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
     "configurePresets": [
         {
-        "name": "Debug_x86",
-        "displayName": "Debug Build",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/build/${presetName}"
+            "name": "Debug_Win_x86",
+            "displayName": "Debug Win x86",
+            "description": "MinGW x86 debug build",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "C:/MinGW/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/MinGW/bin/g++.exe"
+            }
+        },
+        {
+            "name": "Debug_Win_x64",
+            "displayName": "Debug Win x64",
+            "description": "MinGW x64 debug build",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "C:/MinGW/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/MinGW/bin/g++.exe"
+            }
+        },
+        {
+            "name": "Release_Win_x86",
+            "displayName": "Release Win x86",
+            "description": "MinGW x86 release build",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "C:/MinGW/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/MinGW/bin/g++.exe"
+            }
+        },
+        {
+            "name": "Release_Win_x64",
+            "displayName": "Release Win x64",
+            "description": "MinGW x64 release build",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "C:/MinGW/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/MinGW/bin/g++.exe"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Debug_Win_x86",
+            "configurePreset": "Debug_Win_x86",
+            "jobs": 8
+        },
+        {
+            "name": "Debug_Win_x64",
+            "configurePreset": "Debug_Win_x64",
+            "jobs": 8
+        },
+        {
+            "name": "Release_Win_x86",
+            "configurePreset": "Release_Win_x86",
+            "jobs": 8
+        },
+        {
+            "name": "Release_Win_x64",
+            "configurePreset": "Release_Win_x64",
+            "jobs": 8
+        },
+        {
+            "name": "Run_Debug_Win_x86",
+            "configurePreset": "Debug_Win_x86",
+            "targets": [
+                "run_arcadia_engine"
+            ]
+        },
+        {
+            "name": "Run_Debug_Win_x64",
+            "configurePreset": "Debug_Win_x64",
+            "targets": [
+                "run_arcadia_engine"
+            ]
+        },
+        {
+            "name": "Run_Release_Win_x86",
+            "configurePreset": "Release_Win_x86",
+            "targets": [
+                "run_arcadia_engine"
+            ]
+        },
+        {
+            "name": "Run_Release_Win_x64",
+            "configurePreset": "Release_Win_x64",
+            "targets": [
+                "run_arcadia_engine"
+            ]
         }
     ]
 }

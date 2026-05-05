@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Game.h"
 #include "Renderer.h"
 
@@ -14,7 +15,6 @@ Game::~Game() {
 }
 
 void Game::Run() {
-    Initialize();
 
     while (isRunning) {
         ProcessInput();
@@ -26,24 +26,54 @@ void Game::Run() {
 }
 
 
-void Game::Initialize() {
+bool Game::Initialize() {
+
+    if (!SDL_Init(SDL_INIT_VIDEO)) {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Initialization Error", SDL_GetError(), nullptr);
+        return false;
+    }
+
+    std::cout << "SDL initialized successfully." << std::endl;
+
     renderer = new Renderer(this);
-    if (!renderer->Initialize(800.0f, 600.0f)) {
+    if (!renderer->Initialize(800.0f, 800.0f)) {
         // Handle renderer initialization failure
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize renderer");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Renderer Initialization Error", "Failed to initialize renderer", nullptr);
         isRunning = false;
+        return false;
     } else {
         isRunning = true;
     }
+
+    ticksCount = SDL_GetTicks();
+
+    return true; // Return true if initialization is successful
 }
 
 void Game::Shutdown() {
-    delete renderer;
-    renderer = nullptr;
+    if(renderer) {
+        renderer->Shutdown();
+        delete renderer;
+        renderer = nullptr;
+    }
+    SDL_Quit();
 }
 
 void Game::ProcessInput() {
     // Input processing code here
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_EVENT_QUIT:
+                isRunning = false;
+                break;
+            // Handle other events here
+        }
+    }
+    const bool* keyState = SDL_GetKeyboardState(NULL);
+    if (keyState[SDL_SCANCODE_ESCAPE]) {
+        isRunning = false;
+    }
 }
 
 void Game::Update() {

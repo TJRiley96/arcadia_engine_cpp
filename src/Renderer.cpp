@@ -1,10 +1,9 @@
 
 #include "Renderer.h"
+#include <glad/glad.h>
 
 Renderer::Renderer(Game* game)
-:game(game),
-window(nullptr),
-glContext(nullptr)
+:game(game)
 {
 }
 
@@ -16,28 +15,17 @@ bool Renderer::Initialize(float width, float height) {
     windowWidth = width;
     windowHeight = height;
 
-    window = SDL_CreateWindow(
+    state.window = SDL_CreateWindow(
         "Arcadia Engine",
-        windowWidth,
-        windowHeight,
-        SDL_WINDOW_OPENGL);
+        width,
+        height,
+        0);
 
-    if (!window) {
-        // Handle window creation failure
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create window: %s", SDL_GetError());
+    if (!state.window) {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Window Creation Error", SDL_GetError(), nullptr);
+        Shutdown();
         return false;
     }
-
-    glContext = SDL_GL_CreateContext(window);
-    if (!glContext) {
-        // Handle OpenGL context creation failure
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create OpenGL context: %s", SDL_GetError());
-        SDL_DestroyWindow(window);
-        window = nullptr;
-        return false;
-    }
-
-    
 
     return true; // Return true if initialization is successful
 }
@@ -48,8 +36,11 @@ void Renderer::Draw() {
 
 void Renderer::Shutdown() {
     // Cleanup code here
-    SDL_GL_DestroyContext(glContext);
-    glContext = nullptr;
-    SDL_DestroyWindow(window);
-    window = nullptr;
+    // SDL_GL_DestroyContext(state.glContext);
+    // state.glContext = nullptr;
+    if (state.window) {
+        SDL_DestroyWindow(state.window);
+        state.window = nullptr;
+    }
+    SDL_Quit();
 }
