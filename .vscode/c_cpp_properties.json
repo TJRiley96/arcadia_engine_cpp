@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libs/include/**",
+                "${workspaceFolder}\\libs\\include\\**",
                 "${workspaceFolder}/src/**"
             ],
             "defines": [

@@ -63,19 +63,24 @@ else()
 endif()
 
 set(GLAD_SOURCE "${CMAKE_SOURCE_DIR}/src/glad.c")
+set(STB_IMAGE_HEADER "${CMAKE_SOURCE_DIR}/vendor/stb_image.h")
 file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS "src/*.cpp")
+file(GLOB_RECURSE WORLD_SRC_FILES CONFIGURE_DEPENDS "src/world/*.cpp")
 
-add_executable(arcadia_engine Main.cpp ${SRC_FILES} ${GLAD_SOURCE})
+add_executable(arcadia_engine Main.cpp ${SRC_FILES} ${WORLD_SRC_FILES} ${GLAD_SOURCE} ${STB_IMAGE_HEADER})
 
 target_include_directories(arcadia_engine
 	PRIVATE
 		"${CMAKE_SOURCE_DIR}/vendor"
-		"${CMAKE_SOURCE_DIR}/include"
+		"${CMAKE_SOURCE_DIR}/src/include"
+		"${CMAKE_SOURCE_DIR}/src/world/include"
+		"${CMAKE_SOURCE_DIR}/src/components/include"
 )
 
 if(WIN32)
 	target_include_directories(arcadia_engine
 		PRIVATE
+			"${CMAKE_SOURCE_DIR}/vendor/rapidjson"
 			"${CMAKE_SOURCE_DIR}/vendor/SDL3-3.4.8/include"
 			"${CMAKE_SOURCE_DIR}/vendor/SDL3_image-3.4.4/include"
 	)
@@ -99,14 +104,14 @@ if(WIN32)
 			"${SDL3_IMAGE_DLL}"
 			"$<TARGET_FILE_DIR:arcadia_engine>"
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-			"${CMAKE_SOURCE_DIR}/assets"
+			"${CMAKE_SOURCE_DIR}/src/assets"
 			"$<TARGET_FILE_DIR:arcadia_engine>/assets"
 		COMMENT "Copy SDL runtime DLLs next to arcadia_engine.exe"
 	)
 else()
 	add_custom_command(TARGET arcadia_engine POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-			"${CMAKE_SOURCE_DIR}/assets"
+			"${CMAKE_SOURCE_DIR}/src/assets"
 			"$<TARGET_FILE_DIR:arcadia_engine>/assets"
 		COMMENT "Copy assets next to arcadia_engine"
 	)
