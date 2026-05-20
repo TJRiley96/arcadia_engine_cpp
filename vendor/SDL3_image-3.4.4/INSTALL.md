@@ -1,21 +1,29 @@
+# To build and use SDL_image:
 
-# Using this package
+SDL_image supports a number of development environments:
+- [CMake](docs/INTRO-cmake.md)
+- [Visual Studio on Windows](docs/INTRO-visualstudio.md)
+- [Xcode on Apple platforms](docs/INTRO-xcode.md)
+- [Android Studio](docs/INTRO-androidstudio.md)
+- [Emscripten for web](docs/INTRO-emscripten.md)
 
-This package contains SDL3_image built for Visual Studio.
-
-To use this package, edit your project properties:
-- Add the include directory to "VC++ Directories" -> "Include Directories"
-- Add the lib/_arch_ directory to "VC++ Directories" -> "Library Directories"
-- Add SDL3_image.lib to Linker -> Input -> "Additional Dependencies"
-- Copy lib/_arch_/SDL3_image.dll to your project directory.
-
-You can include support for additional image formats by including the license and DLL files in the lib/_arch_/optional directory in your application. They will be automatically loaded by SDL_image as needed.
+SDL_image is also usable in other environments. The basic steps are to use CMake to build the library and then use the headers and library that you built in your project. You can search online to see if anyone has specific steps for your setup.
 
 # Documentation
 
 An API reference and additional documentation is available at:
 
 https://wiki.libsdl.org/SDL3_image
+
+# Example code
+
+There are simple example programs in the examples directory.
+
+If you're using CMake, you can build them adding `-DSDLIMAGE_SAMPLES=ON` to the CMake command line when building SDL_image.
+
+If you're using Visual Studio there are separate projects in the VisualC directory.
+
+If you're using Xcode there are separate projects in the Xcode directory.
 
 # Discussions
 
