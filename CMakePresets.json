@@ -74,7 +74,9 @@
 			"cacheVariables": {
 				"ARCADIA_GL_CONTEXT_MAJOR": "3",
 				"ARCADIA_GL_CONTEXT_MINOR": "1",
-				"ARCADIA_GL_CONTEXT_PROFILE": "CORE"
+				"ARCADIA_GL_CONTEXT_PROFILE": "CORE",
+				"SDL_X11": "OFF",
+				"SDL_X11_XTEST": "OFF"
 			}
 		},
 		{
@@ -85,7 +87,9 @@
 			"cacheVariables": {
 				"ARCADIA_GL_CONTEXT_MAJOR": "3",
 				"ARCADIA_GL_CONTEXT_MINOR": "1",
-				"ARCADIA_GL_CONTEXT_PROFILE": "CORE"
+				"ARCADIA_GL_CONTEXT_PROFILE": "CORE",
+				"SDL_X11": "OFF",
+				"SDL_X11_XTEST": "OFF"
 			}
 		},
 		{
@@ -95,7 +99,9 @@
 			"binaryDir": "${sourceDir}/build/Debug_RPi5_GL33",
 			"cacheVariables": {
 				"ARCADIA_GL_CONTEXT_MAJOR": "3",
-				"ARCADIA_GL_CONTEXT_MINOR": "3"
+				"ARCADIA_GL_CONTEXT_MINOR": "3",
+				"SDL_X11": "OFF",
+				"SDL_X11_XTEST": "OFF"
 			}
 		}
 	],
