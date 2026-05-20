@@ -1,0 +1,157 @@
+{
+	"version": 6,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 24,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "debug-windows-x64",
+			"displayName": "Debug Windows x64 (MSYS2 UCRT64)",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build/Debug_Win_x64",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "release-windows-x64",
+			"displayName": "Release Windows x64 (MSYS2 UCRT64)",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build/Release_Win_x64",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "debug-linux-x64",
+			"displayName": "Debug Linux x64",
+			"generator": "Unix Makefiles",
+			"binaryDir": "${sourceDir}/build/Debug_Linux_x64",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "release-linux-x64",
+			"displayName": "Release Linux x64",
+			"generator": "Unix Makefiles",
+			"binaryDir": "${sourceDir}/build/Release_Linux_x64",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "debug-rpi5",
+			"displayName": "Debug Raspberry Pi 5 (GL 3.1)",
+			"inherits": "debug-linux-x64",
+			"binaryDir": "${sourceDir}/build/Debug_RPi5",
+			"cacheVariables": {
+				"ARCADIA_GL_CONTEXT_MAJOR": "3",
+				"ARCADIA_GL_CONTEXT_MINOR": "1",
+				"ARCADIA_GL_CONTEXT_PROFILE": "CORE"
+			}
+		},
+		{
+			"name": "release-rpi5",
+			"displayName": "Release Raspberry Pi 5 (GL 3.1)",
+			"inherits": "release-linux-x64",
+			"binaryDir": "${sourceDir}/build/Release_RPi5",
+			"cacheVariables": {
+				"ARCADIA_GL_CONTEXT_MAJOR": "3",
+				"ARCADIA_GL_CONTEXT_MINOR": "1",
+				"ARCADIA_GL_CONTEXT_PROFILE": "CORE"
+			}
+		},
+		{
+			"name": "debug-rpi5-gl33",
+			"displayName": "Debug Raspberry Pi 5 (GL 3.3 Override)",
+			"inherits": "debug-rpi5",
+			"binaryDir": "${sourceDir}/build/Debug_RPi5_GL33",
+			"cacheVariables": {
+				"ARCADIA_GL_CONTEXT_MAJOR": "3",
+				"ARCADIA_GL_CONTEXT_MINOR": "3"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "build-debug-windows-x64",
+			"displayName": "Build Debug Windows x64",
+			"configurePreset": "debug-windows-x64"
+		},
+		{
+			"name": "build-release-windows-x64",
+			"displayName": "Build Release Windows x64",
+			"configurePreset": "release-windows-x64"
+		},
+		{
+			"name": "build-debug-linux-x64",
+			"displayName": "Build Debug Linux x64",
+			"configurePreset": "debug-linux-x64"
+		},
+		{
+			"name": "build-release-linux-x64",
+			"displayName": "Build Release Linux x64",
+			"configurePreset": "release-linux-x64"
+		},
+		{
+			"name": "build-debug-rpi5",
+			"displayName": "Build Debug Raspberry Pi 5",
+			"configurePreset": "debug-rpi5"
+		},
+		{
+			"name": "build-release-rpi5",
+			"displayName": "Build Release Raspberry Pi 5",
+			"configurePreset": "release-rpi5"
+		},
+		{
+			"name": "build-debug-rpi5-gl33",
+			"displayName": "Build Debug Raspberry Pi 5 (GL 3.3 Override)",
+			"configurePreset": "debug-rpi5-gl33"
+		}
+	],
+	"testPresets": [
+		{
+			"name": "test-debug-windows-x64",
+			"configurePreset": "debug-windows-x64"
+		},
+		{
+			"name": "test-debug-linux-x64",
+			"configurePreset": "debug-linux-x64"
+		},
+		{
+			"name": "test-debug-rpi5",
+			"configurePreset": "debug-rpi5"
+		},
+		{
+			"name": "test-debug-rpi5-gl33",
+			"configurePreset": "debug-rpi5-gl33"
+		}
+	]
+}

@@ -19,6 +19,14 @@
 #include "Texture.h"
 #include "SpriteComponent.h"
 
+#ifndef ARCADIA_GL_CONTEXT_MAJOR
+#define ARCADIA_GL_CONTEXT_MAJOR 3
+#endif
+
+#ifndef ARCADIA_GL_CONTEXT_MINOR
+#define ARCADIA_GL_CONTEXT_MINOR 3
+#endif
+
 
 Renderer::Renderer(Game* game)
 :game(game), clearColor("#096470")
@@ -33,12 +41,15 @@ bool Renderer::Initialize(float width, float height) {
     windowWidth = width;
     windowHeight = height;
 
-    // Set OpenGL attributes
+    // Set OpenGL attributes requested by CMake preset/config.
+#if defined(ARCADIA_GL_PROFILE_COMPATIBILITY)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+#else
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+#endif
 
-    // Request an OpenGL 3.3 context (should be supported on most platforms)
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, ARCADIA_GL_CONTEXT_MAJOR);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, ARCADIA_GL_CONTEXT_MINOR);
 
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -64,6 +75,16 @@ bool Renderer::Initialize(float width, float height) {
     Logging::LogInfo("Window created successfully");
 
     state.glContext = SDL_GL_CreateContext(state.window);
+
+    if (!state.glContext) {
+        // Some Raspberry Pi drivers are stable at GL 3.1 even if 3.3 was requested.
+        if (ARCADIA_GL_CONTEXT_MAJOR > 3 || (ARCADIA_GL_CONTEXT_MAJOR == 3 && ARCADIA_GL_CONTEXT_MINOR > 1)) {
+            Logging::LogWarning("Requested OpenGL context failed, retrying with OpenGL 3.1");
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+            state.glContext = SDL_GL_CreateContext(state.window);
+        }
+    }
 
     if (!state.glContext) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Context Creation Error", SDL_GetError(), nullptr);
